@@ -1,5 +1,5 @@
 {
-  "name": "webdev",
+  "name": "webdevjs",
   "version": "1.0.0",
   "description": "webdev",
   "main": "index.js",
@@ -31,6 +31,6 @@
     "websocket2tcpsocket": "^1.0.2"
   },
   "bin": {
-    "webdev": "index.js"
+    "webdevjs": "index.js"
   }
 }
