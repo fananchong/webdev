@@ -23,3 +23,8 @@ npm install webdev --save-dev
 -   express
 -   webpack-dev-server
 -   websocket2tcpsocket
+
+## 热更新参考
+
+-   <https://doc.webpack-china.org/guides/development>
+-   <https://doc.webpack-china.org/guides/hot-module-replacement/>
