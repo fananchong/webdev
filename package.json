@@ -1,7 +1,7 @@
 {
   "name": "webdev",
   "version": "1.0.0",
-  "description": "集成web服务、调试、tcp代理功能的通用web服务器。",
+  "description": "webdev",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -31,6 +31,6 @@
     "websocket2tcpsocket": "^1.0.2"
   },
   "bin": {
-    "webdev": "./index.js"
+    "webdev": "index.js"
   }
 }
