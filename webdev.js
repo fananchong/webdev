@@ -18,7 +18,7 @@ proto.start = function (port, publish, configfile) {
     if (!configfile) {
         configfile = './webpack.config.js';
     }
-    var config = require(configfile);
+    var config = require(process.cwd() + '/'+ configfile);
     var compiler = webpack(config);
     app.use(webpackDevMiddleware(compiler, {
         publicPath: publish,
