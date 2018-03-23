@@ -6,17 +6,15 @@ var WebDev = require('./webdev.js');
 var argv = minimist(process.argv.slice(2), {
     alias: {
         port: 'p',
-        publish: 'ph'
+        publish: 'ph',
+        config: 'c'
     }
 });
 
 if (!argv.port) {
-    console.error('Usage: webdev --port [ws-port] --publish [publish-path]');
-    process.exec(1);
+    console.error('Usage: webdev --port [ws-port] --publish [publish-path] --config [config-file]');
+    return;
 }
 
-console.log('argv.port =', argv.port);
-console.log('argv.publish =', argv.publish);
-
 var webdev = new WebDev();
-webdev.start(argv.port, argv.publish);
+webdev.start(argv.port, argv.publish, argv.conf);
