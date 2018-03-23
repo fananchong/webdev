@@ -8,6 +8,10 @@
 npm install webdev --save-dev
 ```
 
+## web.config.js例子
+
+请参考： [web.config.js](example/web.config.js)
+
 ## 编写目的
 
 做H5游戏开发时，通常需要提供以下措施：
