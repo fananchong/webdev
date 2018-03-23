@@ -1,0 +1,35 @@
+{
+  "name": "webdev",
+  "version": "1.0.0",
+  "description": "集成web服务、调试、tcp代理功能的通用web服务器。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fananchong/webdev.git"
+  },
+  "keywords": [
+    "web",
+    "webpack-dev-server",
+    "websocket",
+    "tcp proxy",
+    "hot-reload"
+  ],
+  "author": "fananchong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fananchong/webdev/issues"
+  },
+  "homepage": "https://github.com/fananchong/webdev#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "minimist": "^1.2.0",
+    "webpack-dev-server": "^3.1.1",
+    "websocket2tcpsocket": "^1.0.2"
+  },
+  "bin": {
+    "webdev": "./index.js"
+  }
+}
