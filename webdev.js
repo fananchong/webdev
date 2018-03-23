@@ -16,7 +16,7 @@ proto.start = function (port, publish, configfile) {
         publish = '.';
     }
     if (!configfile) {
-        configfile = 'webpack.config.js';
+        configfile = './webpack.config.js';
     }
     var config = require(configfile);
     var compiler = webpack(config);
