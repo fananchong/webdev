@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var W2T = require('websocket2tcpsocket');
 module.exports = WebDev;
 
@@ -16,9 +17,10 @@ proto.start = function (port, publish) {
     www.get('/', function (req, res) {
         res.sendFile(__dirname + "/index.html");
     });
-    var server = www.listen(port, function () {
-        console.log("listen 0.0.0.0:%d", port);
-    });
+    var server = http.createServer(www);
     var w2t = new W2T();
     w2t.start({ server: server });
+    server.listen(port, function () {
+        console.log("listen 0.0.0.0:%d", port);
+    });
 };

@@ -1,3 +1,17 @@
+
+// echo server
+var net = require('net');
+net.createServer(function (socket) {
+  socket.on('data', function (data) {
+    socket.write(data.toString());
+  });
+}).listen(12345);
+
+// W2T
+var WebDev = require('../webdev.js');
+var webdev = new WebDev();
+webdev.start(8000);
+
 // ws client
 var count = 0;
 var WebSocket = require('ws');
