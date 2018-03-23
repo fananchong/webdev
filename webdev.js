@@ -15,15 +15,16 @@ proto.start = function (port, publish, configfile) {
     if (!publish) {
         publish = '.';
     }
-    if (!!configfile) {
-        var config = require(configfile);
-        var compiler = webpack(config);
-        app.use(webpackDevMiddleware(compiler, {
-            publicPath: publish,
-            hot: true,
-            inline: true
-        }));
+    if (!configfile) {
+        configfile = 'webpack.config.js';
     }
+    var config = require(configfile);
+    var compiler = webpack(config);
+    app.use(webpackDevMiddleware(compiler, {
+        publicPath: publish,
+        hot: true,
+        inline: true
+    }));
     app.use('/', express.static(publish));
     app.get('/', function (req, res) {
         res.sendFile(__dirname + "/index.html");
