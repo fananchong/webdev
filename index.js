@@ -17,4 +17,4 @@ if (!argv.port) {
 }
 
 var webdev = new WebDev();
-webdev.start(argv.port, argv.publish, argv.conf);
+webdev.start(argv.port, argv.publish, argv.config);
