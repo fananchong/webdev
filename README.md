@@ -5,7 +5,7 @@
 ## 安装
 
 ```dos
-npm install webdev --save-dev
+npm install webdevjs --save-dev
 ```
 
 ## web.config.js例子
