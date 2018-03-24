@@ -17,11 +17,17 @@ proto.start = function (port, configfile) {
     if (!configfile) {
         configfile = './webpack.config.js';
     }
-    app.use('/', express.static('.'));
+    var config = require(process.cwd() + '/' + configfile);
+    if (!!config.output.publicPath) {
+        app.use('/', express.static(config.output.publicPath));
+    }
+    else {
+        app.use('/', express.static('.'));
+    }
+
     app.get('/', function (req, res) {
         res.sendFile(__dirname + "/index.html");
     });
-    var config = require(process.cwd() + '/' + configfile);
     var compiler = webpack(config);
     app.use(webpackDevMiddleware(compiler, {
         logLevel: 'warn',
