@@ -10,7 +10,7 @@ npm install webdevjs --save-dev
 
 ## web.config.js例子
 
-请参考： [web.config.js](example/web.config.js)
+请参考： [web.config.js](example/webpack.config.js)
 
 ## 编写目的
 
