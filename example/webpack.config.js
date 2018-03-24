@@ -1,12 +1,12 @@
 var webpack = require('webpack');
+var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false';
 
 module.exports = {
   mode: 'development',
   context: __dirname,
-  entry: [
-    'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000',
-    "./index.js"
-  ],
+  entry: {
+    index: ["./index.js", hotMiddlewareScript]
+  },
   devtool: '#source-map',
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -15,11 +15,11 @@ module.exports = {
   ],
   output: {
     path: __dirname,
-    publicPath: '.',
-    filename: "bundle.js"
+    publicPath: 'http://localhost:8000/',
+    filename: './bundle.js'
   },
   devServer: {
-    "port": 8000,
+    "wwwPath": '.',
     "open": true,
     "browser": ["chrome", '--allow-file-access-from-files', '--disable-web-security', '--user-data-dir=./userdata']
   },
