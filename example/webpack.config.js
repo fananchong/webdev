@@ -19,7 +19,9 @@ module.exports = {
     filename: "bundle.js"
   },
   devServer: {
-    "open": true
+    "port": 8000,
+    "open": true,
+    "browser": ["chrome", '--allow-file-access-from-files', '--disable-web-security', '--user-data-dir=./userdata']
   },
   node: {
     fs: 'empty'
