@@ -18,6 +18,9 @@ module.exports = {
     publicPath: '/',
     filename: "bundle.js"
   },
+  devServer: {
+    "open": true
+  },
   node: {
     fs: 'empty'
   }

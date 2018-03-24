@@ -4,6 +4,7 @@ var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var http = require('http');
 var W2T = require('websocket2tcpsocket');
+var open = require('open');
 
 module.exports = WebDev;
 
@@ -22,11 +23,15 @@ proto.start = function (port, configfile) {
         logLevel: 'warn',
         publicPath: config.output.publicPath
     }));
-    app.use(webpackHotMiddleware(compiler,{log  :console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000}));
+    app.use(webpackHotMiddleware(compiler, { log: console.log, path: '/__webpack_hmr', heartbeat: 10 * 1000 }));
     var server = http.createServer(app);
     var w2t = new W2T();
     w2t.start({ server: server });
     server.listen(port, function () {
         console.log("listen 0.0.0.0:%d", port);
+
+        if (!!config.devServer && !!config.devServer.open) {
+            open('http://localhost:' + String(port));
+        }
     });
 };
