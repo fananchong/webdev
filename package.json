@@ -1,6 +1,6 @@
 {
   "name": "webdevjs",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "webdev",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,7 @@
     "url": "https://github.com/fananchong/webdev/issues"
   },
   "homepage": "https://github.com/fananchong/webdev#readme",
-  "devDependencies": {
+  "dependencies": {
     "express": "^4.16.3",
     "minimist": "^1.2.0",
     "open": "^0.0.5",
