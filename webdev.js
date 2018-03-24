@@ -17,6 +17,10 @@ proto.start = function (port, configfile) {
     if (!configfile) {
         configfile = './webpack.config.js';
     }
+    app.use('/', express.static('.'));
+    app.get('/', function (req, res) {
+        res.sendFile(__dirname + "/index.html");
+    });
     var config = require(process.cwd() + '/' + configfile);
     var compiler = webpack(config);
     app.use(webpackDevMiddleware(compiler, {
