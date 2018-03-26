@@ -7,34 +7,44 @@
     var opn = require('opn');
     var gulp = require('gulp');
     var gulpWebpack = require('webpack-stream');
-    var connect = require('gulp-connect');
+    var gulpConnect = require('gulp-connect');
 
     module.exports = webdevjs;
 
     function webdevjs() { }
 
     webdevjs.start = function (configfile) {
-        if (!!configfile) {
+        if (!configfile) {
             configfile = './webpack.config.js';
         }
         configfile = process.cwd() + '/' + configfile;
         var config = require(configfile);
+        gulp.task('html', function () {
+            gulp.src(config.devServer.watch_html)
+                .pipe(gulp.dest('.'))
+                .pipe(gulpConnect.reload());
+        });
         gulp.task('webpack', function () {
             gulpWebpack(require(configfile))
-                .pipe(gulp.dest('.'));
+                .pipe(gulp.dest('.'))
+                .pipe(gulpConnect.reload());
         });
         gulp.task('default', function () {
-            gulp.watch(config.devServer.watch, ['webpack']);
+            webdevjs.runweb(config);
+            gulpConnect.server({
+                livereload: true,
+                port: config.devServer.port,
+            });
+            gulp.watch(config.devServer.watch_html, ['html']);
+            gulp.watch(config.devServer.watch_js, ['webpack']);
         });
-
-        webdevjs.runweb(config);
         gulp.start();
     };
 
     webdevjs.runweb = function (config) {
         var app = express();
-        if (!!config.devServer.wwwPath) {
-            app.use('/', express.static(config.devServer.wwwPath + '/'));
+        if (!!config.output.publicPath) {
+            app.use('/', express.static(config.output.publicPath + '/'));
         }
         else {
             app.use('/', express.static('./'));

@@ -2,7 +2,7 @@
     'use strict';
 
     function startApp() {
-        alert('hello!');
+        alert('hello!!');
     }
 
     startApp();
