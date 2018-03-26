@@ -1,27 +1,15 @@
-var webpack = require('webpack');
-var hotMiddlewareScript = 'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false';
-
 module.exports = {
-  mode: 'development',
-  context: __dirname,
-  entry: {
-    index: ["./index.js", hotMiddlewareScript]
-  },
-  devtool: '#source-map',
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin()
-  ],
+  entry: ["./index.js"],
   output: {
     path: __dirname,
-    publicPath: 'http://localhost:8000/',
+    publicPath: '.',
     filename: './bundle.js'
   },
   devServer: {
-    "wwwPath": '.',
+    "port": 8000,
     "open": true,
-    "browser": ["chrome", '--allow-file-access-from-files', '--disable-web-security', '--user-data-dir=./userdata']
+    "browser": ["chrome", '--allow-file-access-from-files', '--disable-web-security', '--user-data-dir=./userdata'],
+    "watch": ['./index.js']
   },
   node: {
     fs: 'empty'

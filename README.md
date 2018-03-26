@@ -28,10 +28,6 @@ npm install webdevjs --save-dev
 `webdev`将使用node.js集成以下项目：
 
 - express
-- webpack-dev-server
+- gulp
+- gulp-webpack
 - websocket2tcpsocket
-
-## 热更新实现参考的官方文档（备忘）
-
-- <https://doc.webpack-china.org/guides/development>
-- <https://doc.webpack-china.org/guides/hot-module-replacement/>

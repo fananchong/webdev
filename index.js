@@ -1,13 +1,16 @@
 #!/usr/bin/env node
 
-var minimist = require('minimist');
-var WebDev = require('./webdev.js');
+(function () {
+    'use strict';
 
-var argv = minimist(process.argv.slice(2), {
-    alias: {
-        config: 'c'
-    }
-});
+    var minimist = require('minimist');
+    var argv = minimist(process.argv.slice(2), {
+        alias: {
+            config: 'c'
+        }
+    });
 
-var webdev = new WebDev();
-webdev.start(argv.config);
+    var webdevjs = require('./webdev.js');
+    webdevjs.start(argv.config);
+
+})();

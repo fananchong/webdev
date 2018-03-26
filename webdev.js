@@ -1,61 +1,64 @@
-var express = require('express');
-var webpack = require('webpack');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
-var http = require('http');
-var W2T = require('websocket2tcpsocket');
-var opn = require('opn');
+(function () {
+    'use strict';
 
-module.exports = WebDev;
+    var express = require('express');
+    var http = require('http');
+    var W2T = require('websocket2tcpsocket');
+    var opn = require('opn');
+    var gulp = require('gulp');
+    var gulpWebpack = require('webpack-stream');
+    var connect = require('gulp-connect');
 
-function WebDev() { }
+    module.exports = webdevjs;
 
-var proto = WebDev.prototype;
+    function webdevjs() { }
 
-proto.start = function (configfile) {
-    var app = express();
-    if (!configfile) {
-        configfile = './webpack.config.js';
-    }
-    var config = require(process.cwd() + '/' + configfile);
-    if (!!config.devServer.wwwPath) {
-        app.use('/', express.static(config.devServer.wwwPath + '/'));
-    }
-    else {
-        app.use('/', express.static('./'));
-    }
-
-    app.get('/', function (req, res) {
-        res.sendFile(__dirname + "/index.html");
-    });
-
-    var compiler = webpack(config);
-    app.use(webpackDevMiddleware(compiler, {
-        logLevel: 'warn',
-        publicPath: config.output.publicPath
-    }));
-    app.use(webpackHotMiddleware(compiler, {
-        log: console.log,
-        path: '/__webpack_hmr', heartbeat: 10 * 1000,
-    }));
-    var server = http.createServer(app);
-    var w2t = new W2T();
-    w2t.start({ server: server });
-
-
-    var temp = config.output.publicPath.split(":");
-    var port = temp[temp.length - 1].split('/')[0];
-
-    console.log('port =', port);
-
-    server.listen(parseInt(port), function () {
-        console.log("listen 0.0.0.0:%s", port);
-        if (!!config.devServer.open) {
-            if (!!config.devServer.browser) {
-                opn('http://localhost:' + port, { app: config.devServer.browser });
-            } else {
-                opn('http://localhost:' + port);
-            }
+    webdevjs.start = function (configfile) {
+        if (!!configfile) {
+            configfile = './webpack.config.js';
         }
-    });
-};
+        configfile = process.cwd() + '/' + configfile;
+        var config = require(configfile);
+        gulp.task('webpack', function () {
+            gulpWebpack(require(configfile))
+                .pipe(gulp.dest('.'));
+        });
+        gulp.task('default', function () {
+            gulp.watch(config.devServer.watch, ['webpack']);
+        });
+
+        webdevjs.runweb(config);
+        gulp.start();
+    };
+
+    webdevjs.runweb = function (config) {
+        var app = express();
+        if (!!config.devServer.wwwPath) {
+            app.use('/', express.static(config.devServer.wwwPath + '/'));
+        }
+        else {
+            app.use('/', express.static('./'));
+        }
+
+        app.get('/', function (req, res) {
+            res.sendFile(__dirname + "/index.html");
+        });
+
+        var server = http.createServer(app);
+        var w2t = new W2T();
+        w2t.start({ server: server });
+
+        var port = config.devServer.port;
+        server.listen(port, function () {
+            console.log("listen 0.0.0.0:%d", port);
+            if (!!config.devServer.open) {
+                if (!!config.devServer.browser) {
+                    opn('http://localhost:' + String(port), { app: config.devServer.browser });
+                } else {
+                    opn('http://localhost:' + String(port));
+                }
+            }
+        });
+    };
+
+})();
