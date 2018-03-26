@@ -8,6 +8,7 @@
     var gulp = require('gulp');
     var gulpWebpack = require('webpack-stream');
     var gulpConnect = require('gulp-connect');
+    var httpProxyMiddleware = require('http-proxy-middleware');
 
     module.exports = webdevjs;
 
@@ -21,7 +22,6 @@
         var config = require(configfile);
         gulp.task('html', function () {
             gulp.src(config.devServer.watch_html)
-                .pipe(gulp.dest('.'))
                 .pipe(gulpConnect.reload());
         });
         gulp.task('webpack', function () {
@@ -34,6 +34,14 @@
             gulpConnect.server({
                 livereload: true,
                 port: config.devServer.port,
+                middleware: function (connect, opt) {
+                    return [
+                        httpProxyMiddleware('/', {
+                            target: 'http://localhost:' + String(config.devServer.port + 1),
+                            changeOrigin: true
+                        })
+                    ];
+                }
             });
             gulp.watch(config.devServer.watch_html, ['html']);
             gulp.watch(config.devServer.watch_js, ['webpack']);
@@ -59,8 +67,8 @@
         w2t.start({ server: server });
 
         var port = config.devServer.port;
-        server.listen(port, function () {
-            console.log("listen 0.0.0.0:%d", port);
+        server.listen(port + 1, function () {
+            console.log("listen 0.0.0.0:%d", port + 1);
             if (!!config.devServer.open) {
                 if (!!config.devServer.browser) {
                     opn('http://localhost:' + String(port), { app: config.devServer.browser });
