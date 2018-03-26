@@ -1,6 +1,6 @@
 # webdev
 
-集成web服务、调试、tcp代理功能的通用web服务器。
+集成web服务、调试、自动打包、自动刷新、tcp代理功能的通用web服务器。
 
 ## 安装
 
@@ -12,7 +12,9 @@ npm install webdevjs --save-dev
 
 在example目录中。
 
-主要请参考：[web.config.js](example/webpack.config.js)
+如何使用主要请参考：
+  - [web.config.js](example/webpack.config.js)
+  - [test.bat](example/test.bat)
 
 ## 编写目的
 
@@ -30,4 +32,6 @@ npm install webdevjs --save-dev
 - express
 - gulp
 - gulp-webpack
+- gup-connect
+- webpack
 - websocket2tcpsocket
