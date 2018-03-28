@@ -30,7 +30,6 @@
                 .pipe(gulpConnect.reload());
         });
         gulp.task('default', function () {
-            webdevjs.runweb(config);
             gulpConnect.server({
                 livereload: true,
                 port: config.devServer.port,
@@ -45,6 +44,7 @@
             });
             gulp.watch(config.devServer.watch_html, ['html']);
             gulp.watch(config.devServer.watch_js, ['webpack']);
+            webdevjs.runweb(config);
         });
         gulp.start();
     };
