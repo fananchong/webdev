@@ -8,6 +8,7 @@
     var gulp = require('gulp');
     var gulpWebpack = require('webpack-stream');
     var gulpConnect = require('gulp-connect');
+    var gulpPlumber = require('gulp-plumber');
     var httpProxyMiddleware = require('http-proxy-middleware');
 
     module.exports = webdevjs;
@@ -21,11 +22,22 @@
         configfile = process.cwd() + '/' + configfile;
         var config = require(configfile);
         gulp.task('html', function () {
-            gulp.src(config.devServer.watch_html)
+            return gulp.src(config.devServer.watch_html)
+                .pipe(gulpPlumber({
+                    errorHandler: function (error) {
+                        this.emit('end');
+                    }
+                }))
                 .pipe(gulpConnect.reload());
         });
         gulp.task('webpack', function () {
-            gulpWebpack(require(configfile))
+            return gulp.src(config.devServer.watch_js)
+                .pipe(gulpPlumber({
+                    errorHandler: function (error) {
+                        this.emit('end');
+                    }
+                }))
+                .pipe(gulpWebpack(require(configfile)))
                 .pipe(gulp.dest('.'))
                 .pipe(gulpConnect.reload());
         });
