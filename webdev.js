@@ -45,6 +45,7 @@
             gulpConnect.server({
                 livereload: true,
                 port: config.devServer.port,
+                host: '0.0.0.0',
                 middleware: function (connect, opt) {
                     return [
                         httpProxyMiddleware('/', {
