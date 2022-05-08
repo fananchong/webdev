@@ -90,12 +90,8 @@
         var port = config.devServer.port;
         server.listen(port + 1, function () {
             console.log("listen 0.0.0.0:%d", port + 1);
-            if (!!config.devServer.open) {
-                if (!!config.devServer.browser) {
-                    opn('http://localhost:' + String(port), { app: config.devServer.browser });
-                } else {
-                    opn('http://localhost:' + String(port));
-                }
+            if (!!config.devServer.browser) {
+                opn('http://localhost:' + String(port), { app: config.devServer.browser });
             }
         });
     };
