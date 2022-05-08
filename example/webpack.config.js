@@ -10,9 +10,7 @@ module.exports = {
     "open": true,
     "browser": ["chrome", '--allow-file-access-from-files', '--disable-web-security', '--user-data-dir=./userdata'],
     "watch_js": ['./index.js'],
-    "watch_html": ['*.html']
-  },
-  node: {
-    fs: 'empty'
+    "watch_html": ['*.html'],
+    "w2t": false
   }
 };

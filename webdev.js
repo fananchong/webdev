@@ -6,10 +6,11 @@
     var W2T = require('websocket2tcpsocket');
     var opn = require('opn');
     var gulp = require('gulp');
+    const { series, parallel } = require('gulp');
     var gulpWebpack = require('webpack-stream');
     var gulpConnect = require('gulp-connect');
     var gulpPlumber = require('gulp-plumber');
-    var httpProxyMiddleware = require('http-proxy-middleware');
+    const { createProxyMiddleware } = require('http-proxy-middleware');
 
     module.exports = webdevjs;
 
@@ -21,6 +22,7 @@
         }
         configfile = process.cwd() + '/' + configfile;
         var config = require(configfile);
+
         gulp.task('html', function () {
             return gulp.src(config.devServer.watch_html)
                 .pipe(gulpPlumber({
@@ -41,25 +43,25 @@
                 .pipe(gulp.dest('.'))
                 .pipe(gulpConnect.reload());
         });
-        gulp.task('default', function () {
+        gulp.task('dev', function () {
             gulpConnect.server({
                 livereload: true,
                 port: config.devServer.port,
                 host: '0.0.0.0',
                 middleware: function (connect, opt) {
                     return [
-                        httpProxyMiddleware('/', {
+                        createProxyMiddleware('/', {
                             target: 'http://localhost:' + String(config.devServer.port + 1),
                             changeOrigin: true
                         })
                     ];
                 }
             });
-            gulp.watch(config.devServer.watch_html, ['html']);
-            gulp.watch(config.devServer.watch_js, ['webpack']);
+            gulp.watch(config.devServer.watch_html, parallel('html'));
+            gulp.watch(config.devServer.watch_js, parallel('webpack'));
             webdevjs.runweb(config);
         });
-        gulp.start();
+        parallel('dev')();
     };
 
     webdevjs.runweb = function (config) {
@@ -76,8 +78,14 @@
         });
 
         var server = http.createServer(app);
-        var w2t = new W2T();
-        w2t.start({ server: server });
+
+        if (!!config.devServer.w2t) {
+            console.log("w2t enable")
+            var w2t = new W2T();
+            w2t.start({ server: server });
+        } else {
+            console.log("w2t disable")
+        }
 
         var port = config.devServer.port;
         server.listen(port + 1, function () {
